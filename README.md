@@ -1,4 +1,10 @@
-### Note on CLI command
+![diagram](documentation/images/diagram.png)
+
+#### References:
+- [Amazon VPC options for EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html)
+
+
+#### Note on CLI command
 
 - use the `aws emr create-cluster` command
 ```
