@@ -20,6 +20,12 @@ variable "default_tags" {
   type        = map(any)
   description = "Default tags in key-value pairs"
   default = {
-    Name : "terraform-custom-redshift-module"
+    Name : "terraform-custom-emr-module"
   }
+}
+
+variable "vpc_cidr_block" {
+  type        = string
+  description = "The CIDR block for the VPC associated with EMR"
+  default     = "10.0.0.0/16"
 }
