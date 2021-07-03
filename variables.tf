@@ -29,3 +29,35 @@ variable "vpc_cidr_block" {
   description = "The CIDR block for the VPC associated with EMR"
   default     = "10.0.0.0/16"
 }
+
+
+variable "s3-log-bucket-name" {
+  type = string
+  description = "Name of the bucket to store cluster logs"
+  default = "emr-logging-bucket"
+}
+
+variable "s3-log-bucket-versioning" {
+  type = string
+  description = "Whether to activate versioninig"
+  default = "enabled"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

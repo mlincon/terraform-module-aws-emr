@@ -1,3 +1,8 @@
+# vpc
+# internet gateway
+# route table
+# subnet
+
 # vpc for EMR since the cluster will be launched within an EC2-VPC
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr_block
@@ -7,7 +12,7 @@ resource "aws_vpc" "vpc" {
 
   // if true, assign public hostname to EC2 instance if it is public
   enable_dns_support = true
-  
+
   tags = var.default_tags
 }
 
@@ -30,4 +35,24 @@ resource "aws_route_table" "rt-igw" {
   }
 
   tags = var.default_tags
+}
+
+
+# a public subnet
+resource "aws_subnet" "emr_subnet" {
+  depends_on = [
+    aws_vpc.vpc
+  ]
+
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = local.subnet_cidr
+  # map_public_ip_on_launch = true
+
+  tags = var.default_tags
+}
+
+# associate route table to subnet
+resource "aws_route_table_association" "public-rt-association" {
+  subnet_id      = aws_subnet.emr_subnet.id
+  route_table_id = aws_route_table.rt-igw.id
 }
