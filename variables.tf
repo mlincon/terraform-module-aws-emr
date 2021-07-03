@@ -32,19 +32,28 @@ variable "vpc_cidr_block" {
 
 
 variable "s3-log-bucket-name" {
-  type = string
+  type        = string
   description = "Name of the bucket to store cluster logs"
-  default = "emr-logging-bucket"
+  default     = "emr-logging-bucket"
 }
 
 variable "s3-log-bucket-versioning" {
-  type = string
+  type        = string
   description = "Whether to activate versioninig"
-  default = "enabled"
+  default     = "enabled"
 }
 
+variable "s3-bootstrap-bucket" {
+  type        = string
+  description = "Bucket to store action/bootstrap scripts"
+  default     = "emr-bootstrap-bucket"
+}
 
-
+variable "s3-bootstrap-bucket-versioning" {
+  type        = string
+  description = "Whether to activate versioninig"
+  default     = "enabled"
+}
 
 
 
