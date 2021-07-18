@@ -2,6 +2,8 @@
 # internet gateway
 # route table
 # subnet
+# ssh key
+# security group
 
 # vpc for EMR since the cluster will be launched within an EC2-VPC
 resource "aws_vpc" "vpc" {
@@ -18,7 +20,8 @@ resource "aws_vpc" "vpc" {
 
 
 # Attach Internet Gateway to the above VPC so that it's accessible from internet
-# This will allow instances and devices outside the VPC to connect to database through the cluster endpoint
+# This will allow instances and devices outside the VPC to connect to database 
+# through the cluster endpoint
 resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.vpc.id
 
@@ -51,8 +54,33 @@ resource "aws_subnet" "emr_subnet" {
   tags = var.default_tags
 }
 
+
 # associate route table to subnet
 resource "aws_route_table_association" "public-rt-association" {
   subnet_id      = aws_subnet.emr_subnet.id
   route_table_id = aws_route_table.rt-igw.id
 }
+
+
+# SSH key
+resource "aws_key_pair" "emr-ssh-key" {
+  key_name = var.ssh-key-name
+  public_key = file(var.ssh-key-path)
+}
+
+
+# Security group
+resource "aws_security_group" "sg" {
+  depends_on = [aws_vpc.vpc]
+
+  vpc_id = aws_vpc.vpc.id
+
+  # EMR may automatically add required rules to security groups used with the 
+  # service, and those rules may contain a cyclic dependency that prevent the 
+  # security groups from being destroyed without removing the dependency first
+  revoke_rules_on_delete = true
+
+  tags = var.default_tags
+}
+
+# ingress rules for security groups
