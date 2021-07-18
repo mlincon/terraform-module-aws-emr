@@ -69,10 +69,11 @@ resource "aws_key_pair" "emr-ssh-key" {
 }
 
 
-# Security group
-resource "aws_security_group" "sg" {
+# Security group for master node
+resource "aws_security_group" "master-sg" {
   depends_on = [aws_vpc.vpc]
 
+  name = "${var.sg-name-prefix}-master"
   vpc_id = aws_vpc.vpc.id
 
   # EMR may automatically add required rules to security groups used with the 
@@ -83,4 +84,15 @@ resource "aws_security_group" "sg" {
   tags = var.default_tags
 }
 
-# ingress rules for security groups
+# Security group for slave nodes
+resource "aws_security_group" "slave-sg" {
+  depends_on = [aws_vpc.vpc]
+  
+  name = "${var.sg-name-prefix}-slave"
+  vpc_id = aws_vpc.vpc.id
+  revoke_rules_on_delete = true
+
+  tags = var.default_tags
+}
+
+# ingress rules for security groups for master node

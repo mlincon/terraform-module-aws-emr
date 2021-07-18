@@ -85,7 +85,10 @@ variable "ssh-key-path" {
   description = "Path and file name of the ssh key"
 }
 
-
+variable "sg-name-prefix" {
+  type = string
+  description = "Prefix for name of the EMR security groups"
+}
 
 
 
