@@ -3,7 +3,7 @@
 # route table
 # subnet
 # ssh key
-# security group
+# security groups
 
 # vpc for EMR since the cluster will be launched within an EC2-VPC
 resource "aws_vpc" "vpc" {
@@ -97,7 +97,7 @@ resource "aws_security_group" "slave-sg" {
 
 # ingress rules for security groups
 resource "aws_security_group_rule" "ingress-master-ssh" {
-  description       = "allow SSH traffic from VPN"
+  description       = "allow SSH traffic"
   type              = "ingress"
   security_group_id = aws_security_group.master-sg.id
   from_port         = 22
@@ -109,7 +109,7 @@ resource "aws_security_group_rule" "ingress-master-ssh" {
 }
 
 resource "aws_security_group_rule" "ingress-slave-ssh" {
-  description       = "allow SSH traffic from VPN"
+  description       = "allow SSH traffic"
   type              = "ingress"
   security_group_id = aws_security_group.slave-sg.id
   from_port         = 22
@@ -119,6 +119,34 @@ resource "aws_security_group_rule" "ingress-slave-ssh" {
   # my public IP address
   cidr_blocks       = [local.sg_ingress_cidr]
 }
+
+# self referencing to permit inbound connections so that any resources 
+# associated with the security group can communicate with other resources within
+#  the same security group
+resource "aws_security_group_rule" "ingress-master-self" {
+  description       = "allow communication between nodes in the VPC"
+  type              = "ingress"
+  security_group_id = aws_security_group.master-sg.id
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  
+  # the security group itself will be added as a source to this ingress rule
+  self = true
+}
+
+resource "aws_security_group_rule" "ingress-slave-self" {
+  description       = "allow communication between nodes in the VPC"
+  type              = "ingress"
+  security_group_id = aws_security_group.slave-sg.id
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  
+  # the security group itself will be added as a source to this ingress rule
+  self = true
+}
+
 
 # egress rules for security groups
 resource "aws_security_group_rule" "egress-master" {
