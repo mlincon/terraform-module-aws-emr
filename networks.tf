@@ -87,7 +87,7 @@ resource "aws_security_group" "master-sg" {
 # Security group for slave nodes
 resource "aws_security_group" "slave-sg" {
   depends_on = [aws_vpc.vpc]
-  
+
   name = "${var.sg-name-prefix}-slave"
   vpc_id = aws_vpc.vpc.id
   revoke_rules_on_delete = true
@@ -95,4 +95,48 @@ resource "aws_security_group" "slave-sg" {
   tags = var.default_tags
 }
 
-# ingress rules for security groups for master node
+# ingress rules for security groups
+resource "aws_security_group_rule" "ingress-master-ssh" {
+  description       = "allow SSH traffic from VPN"
+  type              = "ingress"
+  security_group_id = aws_security_group.master-sg.id
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  
+  # my public IP address
+  cidr_blocks       = [local.sg_ingress_cidr]
+}
+
+resource "aws_security_group_rule" "ingress-slave-ssh" {
+  description       = "allow SSH traffic from VPN"
+  type              = "ingress"
+  security_group_id = aws_security_group.slave-sg.id
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  
+  # my public IP address
+  cidr_blocks       = [local.sg_ingress_cidr]
+}
+
+# egress rules for security groups
+resource "aws_security_group_rule" "egress-master" {
+  description       = "EMR-master outbound"
+  type              = "egress"
+  security_group_id = aws_security_group.master-sg.id
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "egress-slave" {
+  description       = "EMR-slave outbound"
+  type              = "egress"
+  security_group_id = aws_security_group.slave-sg.id
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+}
