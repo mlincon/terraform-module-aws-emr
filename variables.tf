@@ -55,7 +55,29 @@ variable "s3-bootstrap-bucket-versioning" {
   default     = "enabled"
 }
 
+variable "s3-input-bucket" {
+  type        = string
+  description = "Bucket to store input files"
+  default     = "emr-input-bucket"
+}
 
+variable "s3-input-bucket-versioning" {
+  type        = string
+  description = "Whether to activate versioninig"
+  default     = "enabled"
+}
+
+variable "s3-output-bucket" {
+  type        = string
+  description = "Bucket to store output"
+  default     = "emr-output-bucket"
+}
+
+variable "s3-output-bucket-versioning" {
+  type        = string
+  description = "Whether to activate versioninig"
+  default     = "enabled"
+}
 
 
 
