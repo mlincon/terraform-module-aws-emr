@@ -75,6 +75,15 @@ variable "s3-output-bucket-versioning" {
   default     = "enabled"
 }
 
+variable "ssh-key-name" {
+  type = string
+  description = "Name of the SSH key"  
+}
+
+variable "ssh-key-path" {
+  type = string
+  description = "Path and file name of the ssh key"
+}
 
 
 
