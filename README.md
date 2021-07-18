@@ -1,7 +1,21 @@
-![diagram](documentation/images/diagram.png)
+#### Components
+- four S3 buckets
+    - one bucket for input files
+    - one bucket for output files
+    - one bucket for storing log files
+    - one bucket for storing bootstrap files
+- SSH key
+- two security groups
+    - one for master node with following ingress rules
+        - port 22 for SSH
+        - self referencing to permit inbound connections so that any resources associated with the security group can communicate with other resources within the same security group
+    - one for slave node with following ingress rules
+        - port 22 for SSH
+        - self referencing 
 
-#### References:
-- [Amazon VPC options for EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html)
+#### Visualized
+
+![diagram](documentation/images/diagram.png)
 
 
 #### Note on CLI command
@@ -29,4 +43,9 @@ aws emr create-cluster \
     - `--instance-type`: type of instance to use
     - `--log-uri`: s3 bucket to store EMR logs
 
-Reference: [create-cluster](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/emr/create-cluster.html)
+
+#### References
+- [Amazon VPC options for EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html)
+- [EMR Getting started tutorial](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-gs.html#emr-getting-started-clean-up)
+- [CLI command: create-cluster](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/emr/create-cluster.html)
+- [View web interfacs hosted on Amazon EMR clusters](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html)
