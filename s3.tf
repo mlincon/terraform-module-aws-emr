@@ -38,7 +38,7 @@ resource "aws_s3_bucket" "input-bucket" {
 
 
 # s3 bucket for storing output files
-resource "aws_s3_bucket" "input-bucket" {
+resource "aws_s3_bucket" "output-bucket" {
   bucket = var.s3-output-bucket
   region = var.region
 

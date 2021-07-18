@@ -34,7 +34,6 @@ variable "vpc_cidr_block" {
 variable "s3-log-bucket-name" {
   type        = string
   description = "Name of the bucket to store cluster logs"
-  default     = "emr-logging-bucket"
 }
 
 variable "s3-log-bucket-versioning" {
@@ -46,7 +45,6 @@ variable "s3-log-bucket-versioning" {
 variable "s3-bootstrap-bucket" {
   type        = string
   description = "Bucket to store action/bootstrap scripts"
-  default     = "emr-bootstrap-bucket"
 }
 
 variable "s3-bootstrap-bucket-versioning" {
@@ -58,7 +56,6 @@ variable "s3-bootstrap-bucket-versioning" {
 variable "s3-input-bucket" {
   type        = string
   description = "Bucket to store input files"
-  default     = "emr-input-bucket"
 }
 
 variable "s3-input-bucket-versioning" {
@@ -70,7 +67,6 @@ variable "s3-input-bucket-versioning" {
 variable "s3-output-bucket" {
   type        = string
   description = "Bucket to store output"
-  default     = "emr-output-bucket"
 }
 
 variable "s3-output-bucket-versioning" {
