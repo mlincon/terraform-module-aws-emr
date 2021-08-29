@@ -1,10 +1,3 @@
-# Each cluster in Amazon EMR must have 
-# - a service role and 
-# - a role for the Amazon EC2 instance profile (an instance profile is used to 
-#   pass an IAM role to an EC2 instance)
-# Ref: https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
-
-
 # define roles for EMR cluster
 
 # create a IAM role for EMR and assume service role
