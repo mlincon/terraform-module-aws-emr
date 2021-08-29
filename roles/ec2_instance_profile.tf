@@ -1,10 +1,3 @@
-# Each cluster in Amazon EMR must have 
-# - a service role and 
-# - a role for the Amazon EC2 instance profile (an instance profile is used to 
-#   pass an IAM role to an EC2 instance)
-# Ref: https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
-
-
 # define role s for EC2 instance profile
 # AmazonElasticMapReduceforEC2Role
 resource "aws_iam_role" "ec2_instance_profile_role" {
@@ -22,4 +15,7 @@ resource "aws_iam_role_policy_attachment" "ec2_instance_profile_role_policies" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
-
+resource "aws_iam_instance_profile" "emr_profile" {
+  name = var.emr_iam_instance_profile_name
+  role = aws_iam_role_policy_attachment.ec2_instance_profile_role_policies.id
+}
