@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo pip install -U \
+pip install -U \
     numpy \
     matplotlib \
     pandas
