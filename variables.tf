@@ -30,6 +30,12 @@ variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
+variable "emr_role_name" {
+  type        = string
+  description = "The name of the EMR IAM role"
+  default     = "emr-role"
+}
+
 
 variable "s3-log-bucket-name" {
   type        = string
