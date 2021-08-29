@@ -1,10 +1,10 @@
 # s3 bucket for storing logs
-resource "aws_s3_bucket" "log-bucket" {
-  bucket = var.s3-log-bucket-name
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = var.s3_log_bucket_name
   region = var.region
 
   versioning {
-    enabled = var.s3-log-bucket-versioning
+    enabled = var.s3_log_bucket_versioning
   }
 
   tags = var.default_tags

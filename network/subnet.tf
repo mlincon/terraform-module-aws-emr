@@ -13,7 +13,7 @@ resource "aws_subnet" "emr_subnet" {
 
 
 # associate route table to subnet so that it becomes "public"
-resource "aws_route_table_association" "public-rt-association" {
+resource "aws_route_table_association" "public_rt_association" {
   subnet_id      = aws_subnet.emr_subnet.id
-  route_table_id = aws_route_table.rt-igw.id
+  route_table_id = aws_route_table.rt_igw.id
 }

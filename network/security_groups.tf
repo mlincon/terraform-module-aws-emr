@@ -1,8 +1,8 @@
 # Security group for master node
-resource "aws_security_group" "master-sg" {
+resource "aws_security_group" "master_sg" {
   depends_on = [aws_vpc.vpc]
 
-  name   = "${var.sg-name-prefix}-master"
+  name   = "${var.sg_name_prefix}_master"
   vpc_id = aws_vpc.vpc.id
 
   # EMR may automatically add required rules to security groups used with the 
@@ -14,10 +14,10 @@ resource "aws_security_group" "master-sg" {
 }
 
 # Security group for slave nodes
-resource "aws_security_group" "slave-sg" {
+resource "aws_security_group" "slave_sg" {
   depends_on = [aws_vpc.vpc]
 
-  name                   = "${var.sg-name-prefix}-slave"
+  name                   = "${var.sg_name_prefix}_slave"
   vpc_id                 = aws_vpc.vpc.id
   revoke_rules_on_delete = true
 
@@ -25,10 +25,10 @@ resource "aws_security_group" "slave-sg" {
 }
 
 # ingress rules for security groups
-resource "aws_security_group_rule" "ingress-master-ssh" {
+resource "aws_security_group_rule" "ingress_master_ssh" {
   description       = "allow SSH traffic"
   type              = "ingress"
-  security_group_id = aws_security_group.master-sg.id
+  security_group_id = aws_security_group.master_sg.id
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
@@ -37,10 +37,10 @@ resource "aws_security_group_rule" "ingress-master-ssh" {
   cidr_blocks = [local.sg_ingress_cidr]
 }
 
-resource "aws_security_group_rule" "ingress-slave-ssh" {
+resource "aws_security_group_rule" "ingress_slave_ssh" {
   description       = "allow SSH traffic"
   type              = "ingress"
-  security_group_id = aws_security_group.slave-sg.id
+  security_group_id = aws_security_group.slave_sg.id
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
@@ -52,22 +52,22 @@ resource "aws_security_group_rule" "ingress-slave-ssh" {
 # self referencing to permit inbound connections, so that any resources 
 # associated with the security group can communicate with other resources within
 # the same security group
-resource "aws_security_group_rule" "ingress-master-self" {
+resource "aws_security_group_rule" "ingress_master_self" {
   description       = "allow communication between nodes in the VPC"
   type              = "ingress"
-  security_group_id = aws_security_group.master-sg.id
+  security_group_id = aws_security_group.master_sg.id
   from_port         = 0
   to_port           = 0
-  protocol          = -1
+  protocol          = _1
 
   # the security group itself will be added as a source to this ingress rule
   self = true
 }
 
-resource "aws_security_group_rule" "ingress-slave-self" {
+resource "aws_security_group_rule" "ingress_slave_self" {
   description       = "allow communication between nodes in the VPC"
   type              = "ingress"
-  security_group_id = aws_security_group.slave-sg.id
+  security_group_id = aws_security_group.slave_sg.id
   from_port         = 0
   to_port           = 0
   protocol          = -1
@@ -78,20 +78,20 @@ resource "aws_security_group_rule" "ingress-slave-self" {
 
 
 # egress rules for security groups
-resource "aws_security_group_rule" "egress-master" {
+resource "aws_security_group_rule" "egress_master" {
   description       = "EMR-master outbound"
   type              = "egress"
-  security_group_id = aws_security_group.master-sg.id
+  security_group_id = aws_security_group.master_sg.id
   from_port         = 0
   to_port           = 0
   protocol          = -1
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "egress-slave" {
+resource "aws_security_group_rule" "egress_slave" {
   description       = "EMR-slave outbound"
   type              = "egress"
-  security_group_id = aws_security_group.slave-sg.id
+  security_group_id = aws_security_group.slave_sg.id
   from_port         = 0
   to_port           = 0
   protocol          = -1
