@@ -22,4 +22,11 @@ resource "aws_emr_cluster" "cluster" {
   }
 
   log_uri = "s3://${aws_s3_bucket.log_bucket.bucket}"
+
+  service_role = aws_iam_role.emr_role.arn
+
+  bootstrap_action {
+    name = var.bootstrap_name
+    path = "s3://${aws_s3_bucket.log_bucket.bucket}/scripts/${var.emr_bootstrap_script}"
+  }
 }

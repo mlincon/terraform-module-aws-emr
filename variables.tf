@@ -153,3 +153,8 @@ variable "emr_core_instance_count" {
   default     = 2
 }
 
+variable "bootstrap_name" {
+  type = string
+  description = "Name of the bootstrap action"
+  default = "Bootstrap setup"
+}
