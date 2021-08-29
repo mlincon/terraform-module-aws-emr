@@ -64,7 +64,7 @@ resource "aws_route_table_association" "public-rt-association" {
 
 # SSH key
 resource "aws_key_pair" "emr-ssh-key" {
-  key_name = var.ssh-key-name
+  key_name   = var.ssh-key-name
   public_key = file(var.ssh-key-path)
 }
 
@@ -73,7 +73,7 @@ resource "aws_key_pair" "emr-ssh-key" {
 resource "aws_security_group" "master-sg" {
   depends_on = [aws_vpc.vpc]
 
-  name = "${var.sg-name-prefix}-master"
+  name   = "${var.sg-name-prefix}-master"
   vpc_id = aws_vpc.vpc.id
 
   # EMR may automatically add required rules to security groups used with the 
@@ -88,8 +88,8 @@ resource "aws_security_group" "master-sg" {
 resource "aws_security_group" "slave-sg" {
   depends_on = [aws_vpc.vpc]
 
-  name = "${var.sg-name-prefix}-slave"
-  vpc_id = aws_vpc.vpc.id
+  name                   = "${var.sg-name-prefix}-slave"
+  vpc_id                 = aws_vpc.vpc.id
   revoke_rules_on_delete = true
 
   tags = var.default_tags
@@ -103,9 +103,9 @@ resource "aws_security_group_rule" "ingress-master-ssh" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  
+
   # my public IP address
-  cidr_blocks       = [local.sg_ingress_cidr]
+  cidr_blocks = [local.sg_ingress_cidr]
 }
 
 resource "aws_security_group_rule" "ingress-slave-ssh" {
@@ -115,9 +115,9 @@ resource "aws_security_group_rule" "ingress-slave-ssh" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  
+
   # my public IP address
-  cidr_blocks       = [local.sg_ingress_cidr]
+  cidr_blocks = [local.sg_ingress_cidr]
 }
 
 # self referencing to permit inbound connections, so that any resources 
@@ -130,7 +130,7 @@ resource "aws_security_group_rule" "ingress-master-self" {
   from_port         = 0
   to_port           = 0
   protocol          = -1
-  
+
   # the security group itself will be added as a source to this ingress rule
   self = true
 }
@@ -142,7 +142,7 @@ resource "aws_security_group_rule" "ingress-slave-self" {
   from_port         = 0
   to_port           = 0
   protocol          = -1
-  
+
   # the security group itself will be added as a source to this ingress rule
   self = true
 }

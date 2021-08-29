@@ -82,17 +82,17 @@ variable "s3-output-bucket-versioning" {
 }
 
 variable "ssh-key-name" {
-  type = string
-  description = "Name of the SSH key"  
+  type        = string
+  description = "Name of the SSH key"
 }
 
 variable "ssh-key-path" {
-  type = string
+  type        = string
   description = "Path and file name of the ssh key"
 }
 
 variable "sg-name-prefix" {
-  type = string
+  type        = string
   description = "Prefix for name of the EMR security groups"
 }
 

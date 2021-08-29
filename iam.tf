@@ -25,7 +25,7 @@ resource "aws_iam_role" "emr_role" {
 # if we implemented the policy in terraform (i.e. created ourselves), 
 # we would have used the resource aws_iam_role_policy at first
 resource "aws_iam_role_policy_attachment" "emr_role_policies" {
-  role       = aws_iam_role.emr_role.id
+  role = aws_iam_role.emr_role.id
 
   # this is the default managed policy for the default EMR Role
   # ref: https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
@@ -42,8 +42,8 @@ resource "aws_iam_role" "ec2_instance_profile_role" {
   tags = var.default_tags
 }
 
-resource "aws_iam_role_policy_attachment" "emr_role_policies" {
-  role       = aws_iam_role.ec2_instance_profile_role.id
+resource "aws_iam_role_policy_attachment" "ec2_instance_profile_role_policies" {
+  role = aws_iam_role.ec2_instance_profile_role.id
 
   # this is the default managed policy for the default EMR EC2 profile role
   # ref: https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
