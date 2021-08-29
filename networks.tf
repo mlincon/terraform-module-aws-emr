@@ -55,7 +55,7 @@ resource "aws_subnet" "emr_subnet" {
 }
 
 
-# associate route table to subnet
+# associate route table to subnet so that it becomes "public"
 resource "aws_route_table_association" "public-rt-association" {
   subnet_id      = aws_subnet.emr_subnet.id
   route_table_id = aws_route_table.rt-igw.id
@@ -120,9 +120,9 @@ resource "aws_security_group_rule" "ingress-slave-ssh" {
   cidr_blocks       = [local.sg_ingress_cidr]
 }
 
-# self referencing to permit inbound connections so that any resources 
+# self referencing to permit inbound connections, so that any resources 
 # associated with the security group can communicate with other resources within
-#  the same security group
+# the same security group
 resource "aws_security_group_rule" "ingress-master-self" {
   description       = "allow communication between nodes in the VPC"
   type              = "ingress"
