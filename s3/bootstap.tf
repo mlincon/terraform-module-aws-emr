@@ -17,7 +17,7 @@ resource "aws_s3_bucket_object" "emr_bootstrap_script" {
   ]
 
   bucket = aws_s3_bucket.bootstrap_bucket.id
-  key    = var.emr_bootstrap_script
+  key    = "scripts/${var.emr_bootstrap_script}"
   source = "${path.module}/../scripts/${var.emr_bootstrap_script}"
 
   tags = var.default_tags
